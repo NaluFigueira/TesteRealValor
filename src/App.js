@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { subYears, addMonths, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import Selector from './components/Selector';
@@ -93,9 +93,12 @@ export default function App() {
     else calculateYieldTreasuryDirect(totalValue, startDate, selectedDate);
   };
 
+  useEffect(() => {
+    if (pageSelected === 4) processGraphData();
+  }, [pageSelected]);
+
   const handleOnSelectOption = (option) => {
     setOptionsSelected([...optionsSelected, option]);
-    if (pageSelected + 1 === 4) processGraphData();
     setPageSelected(pageSelected + 1);
   };
 
@@ -134,7 +137,7 @@ export default function App() {
           title="Selecione o valor inicial do investimento"
           option1="R$ 2.000,00"
           option2="R$ 10.000,00"
-          onSelectOption={(option) => handleOnSelectOption(option, 4)}
+          onSelectOption={(option) => handleOnSelectOption(option)}
           onBackButtonClick={() => handleBack()}
         />
       );
