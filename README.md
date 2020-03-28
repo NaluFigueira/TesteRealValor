@@ -48,6 +48,16 @@ Made with ♥ by Ana Figueira :wave: [Get in touch!](https://www.linkedin.com/in
 -  In the project's folder execute the command yarn
 -  In the project's folder execute the command yarn start
 
+## How to use the application
+
+- The app consists in four sections.
+- In the first section, the user should choose the type of investment that he did, the available options are Bitcoin and Treasury Direct.
+- In the second section, the user should choose when he initiated the investment: 1 year or 2 years ago.
+- In the third section, the user should choose which entry value he used for the investment: R$2000,00 or R$10.000,00
+- The fourth section will show a graph of the accumulated yield of the investment based on the options the user chose in the previous sections, alongside with some details report.
+- The user can navigate between sections using the back button or by selecting an option.
+
+
 [nodejs]: https://nodejs.org/
 [yarn]: https://yarnpkg.com/
 [vc]: https://code.visualstudio.com/
