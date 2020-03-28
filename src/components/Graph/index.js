@@ -1,7 +1,6 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
-
 import {
   LineChart,
   Line,
@@ -52,12 +51,15 @@ const renderTooltip = ({ payload, label, active }) => {
   return null;
 };
 
-export default function Graph({ data }) {
+export default function Graph({ data, onBackButtonClick }) {
   return (
     <Container>
       <Typography align="center" variant="h3" color="textPrimary" gutterBottom>
         Veja como foi seu rendimento acumulado até hoje
       </Typography>
+      <Button variant="contained" color="secondary" onClick={onBackButtonClick}>
+        VOLTAR AO INICIO
+      </Button>
       <InvestmentTypeContainer>
         {data.length > 0 && (
           <LineChart
@@ -110,4 +112,5 @@ Graph.propTypes = {
       yield: PropTypes.number,
     })
   ).isRequired,
+  onBackButtonClick: PropTypes.func.isRequired,
 };

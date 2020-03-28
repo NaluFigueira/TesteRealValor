@@ -77,9 +77,16 @@ export default function App() {
     else calculateYieldTreasuryDirect(totalValue, initialDate, selectedDate);
   };
 
-  const handleOnSelectOption = (option, page) => {
+  const handleOnSelectOption = (option) => {
     setOptionsSelected([...optionsSelected, option]);
-    if (page === 4) processGraphData();
+    if (pageSelected + 1 === 4) processGraphData();
+    setPageSelected(pageSelected + 1);
+  };
+
+  const handleBack = (page = pageSelected - 1) => {
+    const options = [...optionsSelected];
+    options.pop();
+    setOptionsSelected(options);
     setPageSelected(page);
   };
 
@@ -91,7 +98,7 @@ export default function App() {
           option1="Bitcoin"
           option2="Tesouro Direto Pré-fixado"
           hasIcons
-          onSelectOption={(option) => handleOnSelectOption(option, 2)}
+          onSelectOption={(option) => handleOnSelectOption(option)}
         />
       );
     case 2:
@@ -100,7 +107,8 @@ export default function App() {
           title="Selecione a data do investimento"
           option1="1 ano atrás"
           option2="2 anos atrás"
-          onSelectOption={(option) => handleOnSelectOption(option, 3)}
+          onSelectOption={(option) => handleOnSelectOption(option)}
+          onBackButtonClick={() => handleBack()}
         />
       );
     case 3:
@@ -110,10 +118,11 @@ export default function App() {
           option1="R$ 2.000,00"
           option2="R$ 10.000,00"
           onSelectOption={(option) => handleOnSelectOption(option, 4)}
+          onBackButtonClick={() => handleBack()}
         />
       );
     case 4:
-      return <Graph data={data} />;
+      return <Graph data={data} onBackButtonClick={() => handleBack(1)} />;
     default:
       return <></>;
   }

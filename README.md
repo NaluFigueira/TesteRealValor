@@ -32,6 +32,9 @@ This project was developed with the following technologies:
 -  [styled-components](https://www.styled-components.com/)
 -  [MaterialUI](https://material-ui.com/)
 -  [Recharts](http://recharts.org/en-US)
+-  [date-fns](https://date-fns.org/)
+-  [prop-types](https://github.com/facebook/prop-types)
+-  [nomics](https://nomics.com/)
 
 # Outros
 

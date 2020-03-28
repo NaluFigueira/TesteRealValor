@@ -11,6 +11,7 @@ export default function Selector({
   option2,
   onSelectOption,
   hasIcons,
+  onBackButtonClick,
 }) {
   return (
     <Container>
@@ -39,12 +40,22 @@ export default function Selector({
           </Button>
         </OptionContainer>
       </InvestmentTypeContainer>
+      {onBackButtonClick && (
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={onBackButtonClick}
+        >
+          VOLTAR
+        </Button>
+      )}
     </Container>
   );
 }
 
 Selector.defaultProps = {
   hasIcons: false,
+  onBackButtonClick: null,
 };
 
 Selector.propTypes = {
@@ -53,4 +64,5 @@ Selector.propTypes = {
   option2: PropTypes.string.isRequired,
   onSelectOption: PropTypes.func.isRequired,
   hasIcons: PropTypes.bool,
+  onBackButtonClick: PropTypes.func,
 };
