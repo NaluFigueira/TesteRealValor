@@ -36,7 +36,7 @@ This project was developed with the following technologies:
 -  [prop-types](https://github.com/facebook/prop-types)
 -  [nomics](https://nomics.com/)
 
-# Outros
+## Outros
 
 -  [VS Code][vc] with [EditorConfig][vceditconfig], [ESLint][vceslint] and [Prettier][prettier]
 
