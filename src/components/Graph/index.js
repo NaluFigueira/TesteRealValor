@@ -10,7 +10,12 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import { Container, InvestmentTypeContainer, TooltipContainer } from './styles';
+import {
+  Container,
+  InvestmentTypeContainer,
+  TooltipContainer,
+  GraphInfoContainer,
+} from './styles';
 
 const renderLegend = () => {
   return (
@@ -51,7 +56,14 @@ const renderTooltip = ({ payload, label, active }) => {
   return null;
 };
 
-export default function Graph({ data, onBackButtonClick }) {
+export default function Graph({
+  data,
+  initialDate,
+  startValue,
+  endValue,
+  accumulatedYield,
+  onBackButtonClick,
+}) {
   return (
     <Container>
       <Typography align="center" variant="h3" color="textPrimary" gutterBottom>
@@ -62,33 +74,62 @@ export default function Graph({ data, onBackButtonClick }) {
       </Button>
       <InvestmentTypeContainer>
         {data.length > 0 ? (
-          <LineChart
-            width={1000}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis axisLine={false} dataKey="month" tick={{ fill: 'white' }} />
-            <YAxis axisLine={false} tick={{ fill: 'white' }} />
-            <Tooltip content={renderTooltip} />
-            <Legend
-              wrapperStyle={{ top: 310 }}
-              iconSize={24}
-              formatter={renderLegend}
-            />
-            <Line
-              type="monotone"
-              dataKey="yield"
-              stroke="#ffc947"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
+          <>
+            <LineChart
+              width={1000}
+              height={300}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                axisLine={false}
+                dataKey="month"
+                tick={{ fill: 'white' }}
+              />
+              <YAxis axisLine={false} tick={{ fill: 'white' }} />
+              <Tooltip content={renderTooltip} />
+              <Legend
+                wrapperStyle={{ top: 310 }}
+                iconSize={24}
+                formatter={renderLegend}
+              />
+              <Line
+                type="monotone"
+                dataKey="yield"
+                stroke="#ffc947"
+                activeDot={{ r: 8 }}
+              />
+            </LineChart>
+            <GraphInfoContainer>
+              <Typography
+                align="center"
+                variant="body1"
+                color="primary"
+                gutterBottom
+                style={{ fontWeight: 'bold' }}
+              >
+                Detalhes
+              </Typography>
+              <Typography variant="body2" color="primary" gutterBottom>
+                Dia de início: <strong>{initialDate}</strong>
+              </Typography>
+              <Typography variant="body2" color="primary" gutterBottom>
+                Valor total incial: <strong>R${startValue}</strong>
+              </Typography>
+              <Typography variant="body2" color="primary" gutterBottom>
+                Valor total final: <strong>R${endValue}</strong>
+              </Typography>
+              <Typography variant="body2" color="primary" gutterBottom>
+                Rentabilidade acumulada: <strong>R${accumulatedYield}</strong>
+              </Typography>
+            </GraphInfoContainer>
+          </>
         ) : (
           <CircularProgress color="secondary" />
         )}
@@ -115,4 +156,8 @@ Graph.propTypes = {
     })
   ).isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
+  initialDate: PropTypes.string.isRequired,
+  startValue: PropTypes.string.isRequired,
+  endValue: PropTypes.string.isRequired,
+  accumulatedYield: PropTypes.string.isRequired,
 };

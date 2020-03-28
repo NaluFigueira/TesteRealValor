@@ -9,24 +9,34 @@ export default function App() {
   const [pageSelected, setPageSelected] = useState(1);
   const [optionsSelected, setOptionsSelected] = useState([]);
   const [data, setData] = useState([]);
+  const [initialDate, setInitialDate] = useState('');
+  const [startValue, setStartValue] = useState('');
+  const [endValue, setEndValue] = useState('');
+  const [accumulatedYield, setAccumulatedYield] = useState('');
 
   const calculateYieldTreasuryDirect = (
     totalValue,
-    initialDate,
+    startDate,
     numberOfYears
   ) => {
     const rate = 1.1 ** (1 / 12) - 1;
-    let accumulatedYield = totalValue + totalValue * rate;
-    let date = initialDate;
+    let accumulatedValue = totalValue + totalValue * rate;
+    let date = startDate;
     const graphData = [];
     for (let i = 0; i < 12 * numberOfYears; i += 1) {
       graphData.push({
         month: format(date, "MMMM 'de' yyyy", { locale: pt }),
-        yield: Math.round(accumulatedYield * 100) / 100,
+        yield: Math.round(accumulatedValue * 100) / 100,
       });
       date = addMonths(date, 1);
-      accumulatedYield += accumulatedYield * rate;
+      accumulatedValue += accumulatedValue * rate;
     }
+    setInitialDate(format(new Date(startDate), 'dd/MM/yyyy'));
+    setStartValue(totalValue);
+    setEndValue(graphData[graphData.length - 1].yield);
+    setAccumulatedYield(
+      Math.round((accumulatedValue - totalValue) * 100) / 100
+    );
     setData(graphData);
   };
 
@@ -46,21 +56,27 @@ export default function App() {
     }
   }
 
-  const calculateYieldBitcoin = async (totalValue, initialDate) => {
-    let accumulatedYield = totalValue;
+  const calculateYieldBitcoin = async (totalValue, startDate) => {
+    let accumulatedValue = totalValue;
     const graphData = [];
-    const bitcoinPrices = await getBitcoinPricesFromDay(initialDate);
+    const bitcoinPrices = await getBitcoinPricesFromDay(startDate);
     let initialBitcoinValue = bitcoinPrices.prices[0];
     for (let i = 1; i < bitcoinPrices.timestamps.length; i += 1) {
       const date = bitcoinPrices.timestamps[i];
       const rate = parseFloat(bitcoinPrices.prices[i]) / initialBitcoinValue;
       graphData.push({
         month: format(new Date(date), "dd 'de' MMMM", { locale: pt }),
-        yield: Math.round(accumulatedYield * 100) / 100,
+        yield: Math.round(accumulatedValue * 100) / 100,
       });
-      accumulatedYield *= rate;
+      accumulatedValue *= rate;
       initialBitcoinValue = parseFloat(bitcoinPrices.prices[i]);
     }
+    setInitialDate(format(new Date(startDate), 'dd/MM/yyyy'));
+    setStartValue(totalValue);
+    setEndValue(graphData[graphData.length - 1].yield);
+    setAccumulatedYield(
+      Math.round((accumulatedValue - totalValue) * 100) / 100
+    );
     setData(graphData);
   };
 
@@ -70,11 +86,11 @@ export default function App() {
       selectedDate,
       selectedValue,
     ] = optionsSelected;
-    const initialDate = subYears(new Date(), selectedDate);
+    const startDate = subYears(new Date(), selectedDate);
     const totalValue = selectedValue === 1 ? 2000 : 10000;
     if (selectedInvestmentType === 1)
-      calculateYieldBitcoin(totalValue, initialDate);
-    else calculateYieldTreasuryDirect(totalValue, initialDate, selectedDate);
+      calculateYieldBitcoin(totalValue, startDate);
+    else calculateYieldTreasuryDirect(totalValue, startDate, selectedDate);
   };
 
   const handleOnSelectOption = (option) => {
@@ -86,7 +102,8 @@ export default function App() {
   const handleBack = (page = pageSelected - 1) => {
     const options = [...optionsSelected];
     options.pop();
-    setOptionsSelected(options);
+    if (page === 1) setOptionsSelected([]);
+    else setOptionsSelected(options);
     setPageSelected(page);
   };
 
@@ -122,7 +139,16 @@ export default function App() {
         />
       );
     case 4:
-      return <Graph data={data} onBackButtonClick={() => handleBack(1)} />;
+      return (
+        <Graph
+          data={data}
+          initialDate={initialDate}
+          startValue={startValue}
+          endValue={endValue}
+          accumulatedYield={accumulatedYield}
+          onBackButtonClick={() => handleBack(1)}
+        />
+      );
     default:
       return <></>;
   }

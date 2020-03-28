@@ -23,3 +23,13 @@ export const TooltipContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const GraphInfoContainer = styled.div`
+  padding: 10px;
+  display: flex;
+  margin-left: 20px;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: white;
+`;
