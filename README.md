@@ -42,6 +42,12 @@ This project was developed with the following technologies:
 
 Made with ♥ by Ana Figueira :wave: [Get in touch!](https://www.linkedin.com/in/ana-lu%C3%ADsa-chaves-figueira-38792218a/)
 
+## How to execute this project
+
+-  Download the project
+-  In the project's folder execute the command yarn
+-  In the project's folder execute the command yarn start
+
 [nodejs]: https://nodejs.org/
 [yarn]: https://yarnpkg.com/
 [vc]: https://code.visualstudio.com/

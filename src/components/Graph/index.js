@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, CircularProgress } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {
   LineChart,
@@ -61,7 +61,7 @@ export default function Graph({ data, onBackButtonClick }) {
         VOLTAR AO INICIO
       </Button>
       <InvestmentTypeContainer>
-        {data.length > 0 && (
+        {data.length > 0 ? (
           <LineChart
             width={1000}
             height={300}
@@ -89,6 +89,8 @@ export default function Graph({ data, onBackButtonClick }) {
               activeDot={{ r: 8 }}
             />
           </LineChart>
+        ) : (
+          <CircularProgress color="secondary" />
         )}
       </InvestmentTypeContainer>
     </Container>
